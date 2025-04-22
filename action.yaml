@@ -1,0 +1,90 @@
+name: trivy-hybrid-github
+description: Run trivy compliance scan inside Github workflow
+
+inputs:
+  cloudbees_pat_token: 
+    description: Cloudbees PAT token of User
+    required: true
+  cloudbees_api_url: 
+    description: Cloudbees API URL
+    required: true
+  run_id: 
+    description: GHA Run ID
+    required: true
+  job_id:
+    description: GHA Job ID
+    required: true
+  step_id:
+    description: GHA Step ID
+    required: true
+  is-github-workflow:
+    description: Flag to indicate if the action is running in GitHub workflow
+    required: true
+  binary-tar-path:
+    description: 'Path to the binary to scan'
+    required: true
+  license:
+    description: 'Flag to enable license scanning (true/false)'
+    required: false
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: Generate reference files 
+      shell: bash
+      run: |
+        docker run --rm \
+          -v $GITHUB_WORKSPACE:$GITHUB_WORKSPACE \
+          -e INPUT_CLOUDBEES_API_TOKEN="${{ inputs.cloudbees_pat_token }}" \
+          -e INPUT_CLOUDBEES_API_URL="${{ inputs.cloudbees_api_url }}" \
+          -e INPUT_RUN_ID="14377182881" \
+          -e INPUT_IS_GITHUB_WORKFLOW="${{ inputs.is-github-workflow }}" \
+          -e GITHUB_RUN_ID="14377182881" \
+          -e GITHUB_WORKFLOW_REF="hjs-testing/gha-deeper-integration-testing/.github/workflows/test-results.yml@refs/heads/main" \
+          -e GITHUB_RUN_ATTEMPT="1" \
+          -e GITHUB_RUN_NUMBER="17" \
+          -e GITHUB_REF_NAME="gha-deeper-integration-testing" \
+          -e GITHUB_REPOSITORY="hjs-testing/gha-deeper-integration-testing" \
+          -e GITHUB_SERVER_URL="https://github.com/hjs-testing/gha-deeper-integration-testing" \
+          -e GITHUB_JOB="${{ github.job }}" \
+          -e GITHUB_PROVIDER="GITHUB" \
+          -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
+          public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:af06a82fdad168c42e8d06eaa2008d40a8408835 \
+          generate-references --asset-type "BINARY" --tags "BINARY_CONTAINER" --binary-tar-path ${{ inputs.binary-tar-path }}
+
+
+    - name: Run gitleaks compliance plugin
+      shell: bash
+      run: |
+        docker run --rm \
+          -e RUN_ID="${{ inputs.run_id }}" \
+          -e JOB_ID="${{ inputs.job_id }}" \
+          -e STEP_ID="${{ inputs.step_id }}" \
+          public.ecr.aws/l7o7z1g8/actions/assets-trivy-scanner:90ac7296abb2c0c877b3364b5ce21ccf50cb0353 \
+          if [ "${{ inputs.license }}" = "true" ]; then
+            --mode single -license
+          else
+            --mode single
+          fi
+
+    - name: Complete execution plan
+      shell: bash
+      run: |
+        docker run --rm \
+          -e INPUT_CLOUDBEES_API_TOKEN="${{ inputs.cloudbees_pat_token }}" \
+          -e INPUT_CLOUDBEES_API_URL="${{ inputs.cloudbees_api_url }}" \
+          -e INPUT_RUN_ID="${{ inputs.run_id }}" \
+          -e INPUT_IS_GITHUB_WORKFLOW="${{ inputs.is-github-workflow }}" \
+          -e GITHUB_WORKFLOW_REF="hjs-testing/gha-deeper-integration-testing/.github/workflows/test-results.yml@refs/heads/main" \
+          -e GITHUB_RUN_ATTEMPT="1" \
+          -e GITHUB_RUN_NUMBER="17" \
+          -e GITHUB_REF_NAME="gha-deeper-integration-testing" \
+          -e GITHUB_REPOSITORY="hjs-testing/gha-deeper-integration-testing" \
+          -e GITHUB_SERVER_URL="https://github.com/hjs-testing/gha-deeper-integration-testing" \
+          -e GITHUB_JOB="${{ github.job }}" \
+          -e GITHUB_PROVIDER="GITHUB" \
+          -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
+          public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:af06a82fdad168c42e8d06eaa2008d40a8408835 \
+          process-outputs
