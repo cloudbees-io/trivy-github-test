@@ -70,7 +70,7 @@ runs:
         -e JOB_ID="${{ inputs.job_id }}" \
         -e STEP_ID="${{ inputs.step_id }}" \
         public.ecr.aws/l7o7z1g8/actions/assets-trivy-scanner:90ac7296abb2c0c877b3364b5ce21ccf50cb0353 \
-        /app/plugin-trivy-scanner "${CMD[@]}"
+        "${CMD[@]}"
 
     - name: Complete execution plan
       shell: bash
