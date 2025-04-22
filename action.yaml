@@ -51,7 +51,7 @@ runs:
           -e GITHUB_JOB="${{ github.job }}" \
           -e GITHUB_PROVIDER="GITHUB" \
           -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
-          public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:af06a82fdad168c42e8d06eaa2008d40a8408835 \
+          public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:0987702cf0f32ab42040f4ed6f852a6cfe4b21d0 \
           generate-references --asset-type "BINARY" --tags "BINARY_CONTAINER" --binary-tar-path ${{ inputs.binary-tar-path }}
 
 
@@ -59,6 +59,8 @@ runs:
       shell: bash
       run: |
         docker run --rm \
+          -v $GITHUB_WORKSPACE:$GITHUB_WORKSPACE \
+          -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
           -e RUN_ID="${{ inputs.run_id }}" \
           -e JOB_ID="${{ inputs.job_id }}" \
           -e STEP_ID="${{ inputs.step_id }}" \
@@ -73,6 +75,7 @@ runs:
       shell: bash
       run: |
         docker run --rm \
+          -v $GITHUB_WORKSPACE:$GITHUB_WORKSPACE \
           -e INPUT_CLOUDBEES_API_TOKEN="${{ inputs.cloudbees_pat_token }}" \
           -e INPUT_CLOUDBEES_API_URL="${{ inputs.cloudbees_api_url }}" \
           -e INPUT_RUN_ID="${{ inputs.run_id }}" \
@@ -86,5 +89,5 @@ runs:
           -e GITHUB_JOB="${{ github.job }}" \
           -e GITHUB_PROVIDER="GITHUB" \
           -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
-          public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:af06a82fdad168c42e8d06eaa2008d40a8408835 \
+          public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:0987702cf0f32ab42040f4ed6f852a6cfe4b21d0 \
           process-outputs
