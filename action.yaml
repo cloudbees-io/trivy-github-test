@@ -7,19 +7,22 @@ inputs:
     required: true
   cloudbees_api_url: 
     description: Cloudbees API URL
-    required: true
+    required: false
+    default: "https://api.cloudbees.io"
   run_id: 
     description: GHA Run ID
-    required: true
+    required: false
   job_id:
     description: GHA Job ID
-    required: true
+    required: false
   step_id:
     description: GHA Step ID
-    required: true
+    required: false
+    default: "step-006"
   is-github-workflow:
     description: Flag to indicate if the action is running in GitHub workflow
-    required: true
+    required: false
+    default: true
   binary-tar-path:
     description: 'Path to the binary to scan'
     required: true
@@ -65,8 +68,8 @@ runs:
         docker run --rm \
         -v "$GITHUB_WORKSPACE:$GITHUB_WORKSPACE" \
         -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
-        -e RUN_ID="${{ inputs.run_id }}" \
-        -e JOB_ID="${{ inputs.job_id }}" \
+        -e RUN_ID="$GITHUB_RUN_ID" \
+        -e JOB_ID="$GITHUB_JOB" \
         -e STEP_ID="${{ inputs.step_id }}" \
         public.ecr.aws/l7o7z1g8/actions/assets-trivy-scanner:182394335695d9558ce04dd2603ca13c2436be35 \
         "${CMD[@]}"
