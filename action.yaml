@@ -39,27 +39,20 @@ runs:
           -v $GITHUB_WORKSPACE:$GITHUB_WORKSPACE \
           -e INPUT_CLOUDBEES_API_TOKEN="${{ inputs.cloudbees_pat_token }}" \
           -e INPUT_CLOUDBEES_API_URL="${{ inputs.cloudbees_api_url }}" \
-          -e INPUT_RUN_ID="14377182881" \
+          -e INPUT_RUN_ID="${{ inputs.run_id }}" \
           -e INPUT_IS_GITHUB_WORKFLOW="${{ inputs.is-github-workflow }}" \
-          -e GITHUB_RUN_ID="14377182881" \
+          -e GITHUB_RUN_ID="${{ github.run_id }}" \
           -e GITHUB_WORKFLOW_REF="hjs-testing/gha-deeper-integration-testing/.github/workflows/test-results.yml@refs/heads/main" \
-          -e GITHUB_RUN_ATTEMPT="1" \
-          -e GITHUB_RUN_NUMBER="17" \
-          -e GITHUB_REF_NAME="gha-deeper-integration-testing" \
-          -e GITHUB_REPOSITORY="hjs-testing/gha-deeper-integration-testing" \
-          -e GITHUB_SERVER_URL="https://github.com/hjs-testing/gha-deeper-integration-testing" \
+          -e GITHUB_RUN_ATTEMPT="${{ github.run_attempt }}" \
+          -e GITHUB_RUN_NUMBER="${{ github.run_number }}" \
+          -e GITHUB_REF_NAME="${{ github.ref_name }}" \
+          -e GITHUB_REPOSITORY="${{ github.repository }}" \
+          -e GITHUB_SERVER_URL="${{ github.server_url }}/${{ github.repository }}" \
           -e GITHUB_JOB="${{ github.job }}" \
           -e GITHUB_PROVIDER="GITHUB" \
           -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
           public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:88e60e43adc432c01aa8ffde0e0cb51637505b23 \
           generate-references --asset-type "BINARY" --tags "BINARY_CONTAINER" --binary-tar-path ${{ inputs.binary-tar-path }}
-
-    - name: List files in workspace
-      shell: bash
-      run: |
-        echo "Current working directory: $(pwd)"
-        echo "Contents of workspace:"
-        ls -laR $GITHUB_WORKSPACE/store
 
     - name: Run trivy compliance plugin
       shell: bash
@@ -87,14 +80,14 @@ runs:
           -e INPUT_CLOUDBEES_API_TOKEN="${{ inputs.cloudbees_pat_token }}" \
           -e INPUT_CLOUDBEES_API_URL="${{ inputs.cloudbees_api_url }}" \
           -e INPUT_RUN_ID="${{ inputs.run_id }}" \
-          -e GITHUB_RUN_ID="14377182881" \
           -e INPUT_IS_GITHUB_WORKFLOW="${{ inputs.is-github-workflow }}" \
+          -e GITHUB_RUN_ID="${{ github.run_id }}" \
           -e GITHUB_WORKFLOW_REF="hjs-testing/gha-deeper-integration-testing/.github/workflows/test-results.yml@refs/heads/main" \
-          -e GITHUB_RUN_ATTEMPT="1" \
-          -e GITHUB_RUN_NUMBER="17" \
-          -e GITHUB_REF_NAME="gha-deeper-integration-testing" \
-          -e GITHUB_REPOSITORY="hjs-testing/gha-deeper-integration-testing" \
-          -e GITHUB_SERVER_URL="https://github.com/hjs-testing/gha-deeper-integration-testing" \
+          -e GITHUB_RUN_ATTEMPT="${{ github.run_attempt }}" \
+          -e GITHUB_RUN_NUMBER="${{ github.run_number }}" \
+          -e GITHUB_REF_NAME="${{ github.ref_name }}" \
+          -e GITHUB_REPOSITORY="${{ github.repository }}" \
+          -e GITHUB_SERVER_URL="${{ github.server_url }}/${{ github.repository }}" \
           -e GITHUB_JOB="${{ github.job }}" \
           -e GITHUB_PROVIDER="GITHUB" \
           -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
