@@ -72,6 +72,14 @@ runs:
         public.ecr.aws/l7o7z1g8/actions/assets-trivy-scanner:182394335695d9558ce04dd2603ca13c2436be35 \
         "${CMD[@]}"
 
+    - name: List files in workspace
+      shell: bash
+      run: |
+        echo "Current working directory: $(pwd)"
+        echo "Contents of workspace:"
+        ls -laR $GITHUB_WORKSPACE/store
+
+
     - name: Complete execution plan
       shell: bash
       run: |
