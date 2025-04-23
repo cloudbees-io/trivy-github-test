@@ -54,6 +54,12 @@ runs:
           public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:0987702cf0f32ab42040f4ed6f852a6cfe4b21d0 \
           generate-references --asset-type "BINARY" --tags "BINARY_CONTAINER" --binary-tar-path ${{ inputs.binary-tar-path }}
 
+    - name: List files in workspace
+      shell: bash
+      run: |
+        echo "Current working directory: $(pwd)"
+        echo "Contents of workspace:"
+        ls -laR $GITHUB_WORKSPACE/store
 
     - name: Run trivy compliance plugin
       shell: bash
@@ -71,13 +77,6 @@ runs:
         -e STEP_ID="${{ inputs.step_id }}" \
         public.ecr.aws/l7o7z1g8/actions/assets-trivy-scanner:182394335695d9558ce04dd2603ca13c2436be35 \
         "${CMD[@]}"
-
-    - name: List files in workspace
-      shell: bash
-      run: |
-        echo "Current working directory: $(pwd)"
-        echo "Contents of workspace:"
-        ls -laR $GITHUB_WORKSPACE/store
 
 
     - name: Complete execution plan
