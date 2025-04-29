@@ -70,6 +70,7 @@ runs:
         fi
 
         docker run --rm \
+        -u root \
         -v "$GITHUB_WORKSPACE:$GITHUB_WORKSPACE" \
         -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
         -e RUN_ID="${{ inputs.run_id }}" \
