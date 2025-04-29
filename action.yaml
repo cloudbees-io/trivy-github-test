@@ -51,7 +51,7 @@ runs:
           -e GITHUB_JOB="${{ github.job }}" \
           -e GITHUB_PROVIDER="GITHUB" \
           -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
-          public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:319c16869790d0d394ac6905d283209512b422b0 \
+          public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:f339aa4aed8e375a4aac31624a4247d4198c2be0 \
           generate-references --asset-type "BINARY" --tags "BINARY_CONTAINER" --binary-tar-path ${{ inputs.binary-tar-path }}
 
     - name: List files in workspace
@@ -99,5 +99,5 @@ runs:
           -e GITHUB_JOB="${{ github.job }}" \
           -e GITHUB_PROVIDER="GITHUB" \
           -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
-          public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:319c16869790d0d394ac6905d283209512b422b0 \
+          public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:f339aa4aed8e375a4aac31624a4247d4198c2be0 \
           process-outputs
