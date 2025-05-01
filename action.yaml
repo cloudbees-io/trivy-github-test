@@ -39,27 +39,27 @@ runs:
           -v $GITHUB_WORKSPACE:$GITHUB_WORKSPACE \
           -e INPUT_CLOUDBEES_API_TOKEN="${{ inputs.cloudbees_pat_token }}" \
           -e INPUT_CLOUDBEES_API_URL="${{ inputs.cloudbees_api_url }}" \
-          -e INPUT_RUN_ID="14377182881" \
+          -e INPUT_RUN_ID="14769369987" \
           -e INPUT_IS_GITHUB_WORKFLOW="${{ inputs.is-github-workflow }}" \
-          -e GITHUB_RUN_ID="14377182881" \
-          -e GITHUB_WORKFLOW_REF="hjs-testing/gha-deeper-integration-testing/.github/workflows/test-results.yml@refs/heads/main" \
+          -e GITHUB_RUN_ID="14769369987" \
+          -e GITHUB_WORKFLOW_REF="AmitRamachandrann/vuln-scan-repo/.github/workflows/gitleaks.yaml@refs/heads/main" \
           -e GITHUB_RUN_ATTEMPT="1" \
-          -e GITHUB_RUN_NUMBER="17" \
-          -e GITHUB_REF_NAME="gha-deeper-integration-testing" \
-          -e GITHUB_REPOSITORY="hjs-testing/gha-deeper-integration-testing" \
-          -e GITHUB_SERVER_URL="https://github.com/hjs-testing/gha-deeper-integration-testing" \
+          -e GITHUB_RUN_NUMBER="1" \
+          -e GITHUB_REF_NAME="main" \
+          -e GITHUB_REPOSITORY="AmitRamachandrann/vuln-scan-repo" \
+          -e GITHUB_SERVER_URL="https://github.com/AmitRamachandrann/vuln-scan-repo" \
           -e GITHUB_JOB="${{ github.job }}" \
           -e GITHUB_PROVIDER="GITHUB" \
           -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
-          public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:f339aa4aed8e375a4aac31624a4247d4198c2be0 \
+          public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:47e0cebc1e3dcb71661bdefe80a5dde86fd64acf \
           generate-references --asset-type "BINARY" --tags "BINARY_CONTAINER" --binary-tar-path ${{ inputs.binary-tar-path }}
 
-    - name: List files in workspace
-      shell: bash
-      run: |
-        echo "Current working directory: $(pwd)"
-        echo "Contents of workspace:"
-        ls -laR $GITHUB_WORKSPACE/store
+    # - name: List files in workspace
+    #   shell: bash
+    #   run: |
+    #     echo "Current working directory: $(pwd)"
+    #     echo "Contents of workspace:"
+    #     ls -laR $GITHUB_WORKSPACE/store
 
     - name: Run trivy compliance plugin
       shell: bash
@@ -87,17 +87,17 @@ runs:
           -v $GITHUB_WORKSPACE:$GITHUB_WORKSPACE \
           -e INPUT_CLOUDBEES_API_TOKEN="${{ inputs.cloudbees_pat_token }}" \
           -e INPUT_CLOUDBEES_API_URL="${{ inputs.cloudbees_api_url }}" \
-          -e INPUT_RUN_ID="${{ inputs.run_id }}" \
-          -e GITHUB_RUN_ID="14377182881" \
+          -e INPUT_RUN_ID="14769369987" \
+          -e GITHUB_RUN_ID="14769369987" \
           -e INPUT_IS_GITHUB_WORKFLOW="${{ inputs.is-github-workflow }}" \
-          -e GITHUB_WORKFLOW_REF="hjs-testing/gha-deeper-integration-testing/.github/workflows/test-results.yml@refs/heads/main" \
+          -e GITHUB_WORKFLOW_REF="AmitRamachandrann/vuln-scan-repo/.github/workflows/gitleaks.yaml@refs/heads/main" \
           -e GITHUB_RUN_ATTEMPT="1" \
-          -e GITHUB_RUN_NUMBER="17" \
-          -e GITHUB_REF_NAME="gha-deeper-integration-testing" \
-          -e GITHUB_REPOSITORY="hjs-testing/gha-deeper-integration-testing" \
-          -e GITHUB_SERVER_URL="https://github.com/hjs-testing/gha-deeper-integration-testing" \
+          -e GITHUB_RUN_NUMBER="1" \
+          -e GITHUB_REF_NAME="main" \
+          -e GITHUB_REPOSITORY="AmitRamachandrann/vuln-scan-repo" \
+          -e GITHUB_SERVER_URL="https://github.com/AmitRamachandrann/vuln-scan-repo" \
           -e GITHUB_JOB="${{ github.job }}" \
           -e GITHUB_PROVIDER="GITHUB" \
           -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
-          public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:f339aa4aed8e375a4aac31624a4247d4198c2be0 \
+          public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:47e0cebc1e3dcb71661bdefe80a5dde86fd64acf \
           process-outputs
