@@ -54,7 +54,6 @@ runs:
           -e GITHUB_JOB="${{ github.job }}" \
           -e GITHUB_PROVIDER="GITHUB" \
           -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
-          -e GITHUB_ENV="$GITHUB_ENV" \
           public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:88e60e43adc432c01aa8ffde0e0cb51637505b23 \
           generate-references --asset-type "BINARY" --tags "BINARY_CONTAINER" --binary-tar-path ${{ inputs.binary-tar-path }}
 
@@ -96,6 +95,5 @@ runs:
           -e GITHUB_JOB="${{ github.job }}" \
           -e GITHUB_PROVIDER="GITHUB" \
           -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
-          -e GITHUB_ENV="$GITHUB_ENV" \
           public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:88e60e43adc432c01aa8ffde0e0cb51637505b23 \
           process-outputs
