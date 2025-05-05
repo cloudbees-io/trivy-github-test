@@ -42,7 +42,7 @@ runs:
           -v $GITHUB_WORKSPACE:$GITHUB_WORKSPACE \
           -e INPUT_CLOUDBEES_API_TOKEN="${{ inputs.cloudbees_pat_token }}" \
           -e INPUT_CLOUDBEES_API_URL="${{ inputs.cloudbees_api_url }}" \
-          -e INPUT_RUN_ID="${{ inputs.run_id }}" \
+          -e INPUT_RUN_ID="${{ github.run_id }}" \
           -e INPUT_IS_GITHUB_WORKFLOW="${{ inputs.is-github-workflow }}" \
           -e GITHUB_RUN_ID="${{ github.run_id }}" \
           -e GITHUB_WORKFLOW_REF="${{ github.workflow_ref }}" \
@@ -54,6 +54,7 @@ runs:
           -e GITHUB_JOB="${{ github.job }}" \
           -e GITHUB_PROVIDER="GITHUB" \
           -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
+          -e GITHUB_ENV="$GITHUB_ENV" \
           public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:88e60e43adc432c01aa8ffde0e0cb51637505b23 \
           generate-references --asset-type "BINARY" --tags "BINARY_CONTAINER" --binary-tar-path ${{ inputs.binary-tar-path }}
 
@@ -66,6 +67,7 @@ runs:
         fi
 
         docker run --rm \
+        -u root \
         -v "$GITHUB_WORKSPACE:$GITHUB_WORKSPACE" \
         -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
         -e RUN_ID="$GITHUB_RUN_ID" \
@@ -82,7 +84,7 @@ runs:
           -v $GITHUB_WORKSPACE:$GITHUB_WORKSPACE \
           -e INPUT_CLOUDBEES_API_TOKEN="${{ inputs.cloudbees_pat_token }}" \
           -e INPUT_CLOUDBEES_API_URL="${{ inputs.cloudbees_api_url }}" \
-          -e INPUT_RUN_ID="${{ inputs.run_id }}" \
+          -e INPUT_RUN_ID="${{ github.run_id }}" \
           -e INPUT_IS_GITHUB_WORKFLOW="${{ inputs.is-github-workflow }}" \
           -e GITHUB_RUN_ID="${{ github.run_id }}" \
           -e GITHUB_WORKFLOW_REF="${{ github.workflow_ref }}" \
@@ -94,5 +96,6 @@ runs:
           -e GITHUB_JOB="${{ github.job }}" \
           -e GITHUB_PROVIDER="GITHUB" \
           -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
+          -e GITHUB_ENV="$GITHUB_ENV" \
           public.ecr.aws/l7o7z1g8/actions/assets-plugin-chain-utils:88e60e43adc432c01aa8ffde0e0cb51637505b23 \
           process-outputs
