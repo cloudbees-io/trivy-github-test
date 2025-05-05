@@ -69,11 +69,13 @@ runs:
         -u root \
         -v "$GITHUB_WORKSPACE:$GITHUB_WORKSPACE" \
         -e GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \
-        -e RUN_ID="${{ github.run_id }}" \
-        -e JOB_ID="${{ github.job }}" \
+        -e RUN_ID="${{ inputs.run_id }}" \
+        -e JOB_ID="${{ inputs.job_id }}" \
         -e STEP_ID="${{ inputs.step_id }}" \
         public.ecr.aws/l7o7z1g8/actions/assets-trivy-scanner:182394335695d9558ce04dd2603ca13c2436be35 \
         "${CMD[@]}"
+
+
 
 
     - name: Complete execution plan
