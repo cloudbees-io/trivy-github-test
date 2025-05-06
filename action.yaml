@@ -74,8 +74,6 @@ runs:
         "${CMD[@]}"
 
 
-
-
     - name: Complete execution plan
       shell: bash
       run: |
