@@ -46,7 +46,7 @@ In your YAML file, add:
       - name: Scan with Trivy
         uses: https://github.com/cloudbees-io/trivy-github-test@v1
         with:
-          cloudbees_pat_token : secrets.PAT 
+          cloudbees-pat : secrets.PAT 
           binary-tar-path: tar file path that needs to be scanned
 
 ----
