@@ -14,10 +14,15 @@ Use this action to perform static application security testing (SAST) on a repos
 | Description
 
 
-| `cloudbees_pat_token`
+| `cloudbees-pat`
 | String
 | Yes
 | Specify the PAT token obtained from Cloudbees.
+
+| `cloudbees-url`
+| String
+| No
+| The CloudBees platform URL. The default value is `https://api.cloudbees.io`.
 
 | `binary-tar-path`
 | String
