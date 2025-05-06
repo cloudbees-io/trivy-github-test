@@ -9,13 +9,13 @@ inputs:
     description: Cloudbees API URL
     required: false
     default: "https://api.cloudbees.io"
-  step_id:
-    description: GHA Step ID
-    required: false
-    default: "step-006"
   binary-tar-path:
     description: 'Path to the binary to scan'
     required: true
+  step_id:
+    description: GHA Step ID
+    required: false
+    default: ''
   license:
     description: 'Flag to enable license scanning (true/false)'
     required: false
