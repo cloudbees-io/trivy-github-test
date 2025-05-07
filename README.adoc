@@ -1,4 +1,4 @@
-= GHA CloudBees action: Scan with Trivy
+= Trivy scan and publish to Platform
 
 Use this action to perform static application security testing (SAST) on a repository with the Trivy scanner, and then view comprehensive security results in the CloudBees platform.
 
