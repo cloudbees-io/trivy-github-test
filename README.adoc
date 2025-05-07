@@ -1,6 +1,6 @@
 = GHA CloudBees action: Scan with Trivy
 
-Use this action to perform static application security testing (SAST) on a repository with the Trivy scanner.
+Use this action to perform static application security testing (SAST) on a repository with the Trivy scanner, and then view comprehensive security results in the CloudBees platform.
 
 == Inputs
 
@@ -13,43 +13,115 @@ Use this action to perform static application security testing (SAST) on a repos
 | Required?
 | Description
 
+| `binary-tar-path`
+| String
+| Yes
+| The path of the binary to be scanned.
+
+NOTE: The binary file must be in the TAR format.
 
 | `cloudbees-pat`
 | String
 | Yes
-| Specify the PAT token obtained from Cloudbees.
+| The https://docs.cloudbees.com/docs/cloudbees-platform/latest/workflows/personal-access-token[CloudBees platform personal access token].
 
 | `cloudbees-url`
 | String
 | No
-| The CloudBees platform URL. The default value is `https://api.cloudbees.io`.
-
-| `binary-tar-path`
-| String
-| Yes
-| Specify the path of the binary that should be scanned.
+| The CloudBees platform URL.
+The default value is `"https://api.cloudbees.io"`.
 
 | `license`
-| String
+| Boolean
 | No
-| Flag to enable license scanning.
+| The option to perform license scanning.
+Specify `license: true` to perform license scanning.
 
 |===
 
-== Usage example
+== Usage examples
 
-In your YAML file, add:
+=== Basic example
+
+The following is a basic example of using this action:
 
 [source,yaml]
 ----
 
-      - name: Scan with Trivy
-        uses: https://github.com/cloudbees-io/trivy-github-test@v1
+      - name: Trivy SAST scan
+        uses: cloudbees-io-gha/trivy-scan-publish@v1
         with:
-          cloudbees-pat : secrets.PAT 
-          binary-tar-path: tar file path that needs to be scanned
+          binary-tar-path: example-tar-path.tar
+          cloudbees-pat : ${{ secrets.CloudBees-platform-PAT }}
+----
+
+=== Example using license scan
+
+In the following example, the license option is enabled to scan the binary for license files, and then output the risk to CloudBees analytics dashboards.
+To learn more, refer to the link:https://trivy.dev/v0.33/docs/licenses/scanning/[Trivy license scanning documentation].
+
+[source,yaml]
+----
+
+      - name: Trivy SAST scan
+        uses: cloudbees-io-gha/trivy-scan-publish@v1
+        with:
+          binary-tar-path: example-tar-path.tar
+          cloudbees-pat: ${{ secrets.CloudBees-platform-PAT }}
+          license: true
+----
+
+=== Full workflow and run example
+
+The following GHA workflow example builds a Docker binary using link:https://docs.docker.com/reference/cli/docker/buildx/[Buildx], saves the image as a TAR file, and then scans the image with Trivy.
+
+
+.Example GHA workflow YAML file
+[.collapsible]
+--
+
+[source, yaml,role="default-expanded"]
+----
+name: GHA workflow with Trivy SAST scan
+
+on:
+  push:
+    branches:
+      - mains
+
+jobs:
+  trivy-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v3
+
+      - name: Print GitHub run ID
+        run: echo "Run ID is $GITHUB_RUN_ID"
+
+      - name: Set up Docker buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t myapp:latest .
+
+      - name: Save Docker image as TAR file
+        run: |
+          docker save -o output.tar myapp:latest
+          tar -tf output.tar
+
+      - name: Run Trivy SAST scan
+        uses: cloudbees-io-gha/trivy-scan-publish@v1
+        with:
+          binary-tar-path: output.tar
+          cloudbees-pat: ${{ secrets.CLOUDBEES_PAT }}
 
 ----
+--
+
+After the GHA run has completed, the security findings are collected and displayed in the CloudBees platform https://docs.cloudbees.com/docs/cloudbees-platform/latest/aspm/security-center[Security center] of the component containing the workflow.
 
 == License
 
@@ -58,6 +130,6 @@ link:https://opensource.org/license/mit/[MIT license].
 
 == References
 
-* Learn more about link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/actions[using actions in CloudBees workflows].
+* Learn more about link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/github-actions/intro[Using GitHub Actions with the CloudBees platform].
 * Learn about link:https://docs.cloudbees.com/docs/cloudbees-platform/latest/[the CloudBees platform].
 
